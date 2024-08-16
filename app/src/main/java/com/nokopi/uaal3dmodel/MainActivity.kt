@@ -1,10 +1,10 @@
 package com.nokopi.uaal3dmodel
 
 import android.os.Bundle
-import android.widget.FrameLayout
+import android.view.LayoutInflater
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.ui.platform.ComposeView
 import com.unity3d.player.UnityPlayer
 
 class MainActivity : ComponentActivity() {
@@ -14,27 +14,36 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         unityPlayer = UnityPlayer(this)
-        setContentView(R.layout.activity_main)
+        val layoutInflater = LayoutInflater.from(this)
 
-        val frameLayout = findViewById<FrameLayout>(R.id.unity)
-        frameLayout.addView(
-            unityPlayer?.rootView,
-            FrameLayout.LayoutParams.MATCH_PARENT,
-            FrameLayout.LayoutParams.MATCH_PARENT,
-        )
-
-        val composeView = ComposeView(this).apply {
-            setContent {
-                MainScreen()
-            }
+        setContent {
+            MainScreen(
+                unityPlayer = unityPlayer!!,
+                layoutInflater = layoutInflater
+            )
         }
 
-        val frameComposeLayout = findViewById<FrameLayout>(R.id.compose_view)
-        frameComposeLayout.addView(
-            composeView,
-            FrameLayout.LayoutParams.MATCH_PARENT,
-            FrameLayout.LayoutParams.MATCH_PARENT,
-        )
+        // setContentView(R.layout.activity_main)
+        //
+        // val frameLayout = findViewById<FrameLayout>(R.id.unity)
+        // frameLayout.addView(
+        //     unityPlayer?.rootView,
+        //     FrameLayout.LayoutParams.MATCH_PARENT,
+        //     FrameLayout.LayoutParams.MATCH_PARENT,
+        // )
+        //
+        // val composeView = ComposeView(this).apply {
+        //     setContent {
+        //         MainScreen()
+        //     }
+        // }
+        //
+        // val frameComposeLayout = findViewById<FrameLayout>(R.id.compose_view)
+        // frameComposeLayout.addView(
+        //     composeView,
+        //     FrameLayout.LayoutParams.MATCH_PARENT,
+        //     FrameLayout.LayoutParams.MATCH_PARENT,
+        // )
 
         unityPlayer?.requestFocus()
     }
@@ -44,8 +53,30 @@ class MainActivity : ComponentActivity() {
         unityPlayer?.windowFocusChanged(hasFocus)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        unityPlayer?.destroy()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unityPlayer?.onStop()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        unityPlayer?.onStart()
+    }
+
+    // Pause Unity
+    override fun onPause() {
+        super.onPause()
+        unityPlayer?.onPause()
+    }
+
+    // Resume Unity
     override fun onResume() {
         super.onResume()
-        unityPlayer?.resume()
+        unityPlayer?.onResume()
     }
 }
