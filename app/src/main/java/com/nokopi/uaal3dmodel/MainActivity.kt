@@ -14,36 +14,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         unityPlayer = UnityPlayer(this)
-        val layoutInflater = LayoutInflater.from(this)
 
         setContent {
             MainScreen(
                 unityPlayer = unityPlayer!!,
-                layoutInflater = layoutInflater
             )
         }
-
-        // setContentView(R.layout.activity_main)
-        //
-        // val frameLayout = findViewById<FrameLayout>(R.id.unity)
-        // frameLayout.addView(
-        //     unityPlayer?.rootView,
-        //     FrameLayout.LayoutParams.MATCH_PARENT,
-        //     FrameLayout.LayoutParams.MATCH_PARENT,
-        // )
-        //
-        // val composeView = ComposeView(this).apply {
-        //     setContent {
-        //         MainScreen()
-        //     }
-        // }
-        //
-        // val frameComposeLayout = findViewById<FrameLayout>(R.id.compose_view)
-        // frameComposeLayout.addView(
-        //     composeView,
-        //     FrameLayout.LayoutParams.MATCH_PARENT,
-        //     FrameLayout.LayoutParams.MATCH_PARENT,
-        // )
 
         unityPlayer?.requestFocus()
     }

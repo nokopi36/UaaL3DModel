@@ -29,7 +29,6 @@ import com.unity3d.player.UnityPlayer
 @Composable
 fun MainScreen(
     unityPlayer: UnityPlayer,
-    layoutInflater: LayoutInflater,
     modifier: Modifier = Modifier,
 ) {
     val (inputText, setInputText) = remember {
@@ -144,11 +143,9 @@ fun MainScreen(
 private fun MainScreenPreview() {
     // モックのContextとLayoutInflaterを作成
     val context = LocalContext.current
-    val layoutInflater = LayoutInflater.from(context)
     // UnityPlayerのモックを作成
     val unityPlayer = UnityPlayer(context) // プレビューでは空のモックを使う
     MainScreen(
         unityPlayer = unityPlayer,
-        layoutInflater = layoutInflater,
     )
 }
